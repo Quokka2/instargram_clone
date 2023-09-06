@@ -1,43 +1,39 @@
 package com.example.instargram.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class User{
+@Getter
+@NoArgsConstructor
+public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    private String email;
-
+    private String loginId;
     private String password;
+    private String nickname;
 
-    private String phone;
+    private UserRole role;
 
-    private String username;
-
-    private String title;
-
-    private String website;
-
-    private String profileImgUrl;
+    // OAuth 로그인에 사용
+    private String provider;
+    private String providerId;
 
     @Builder
-    public User(String email, String password, String phone, String username, String title, String website, String profileImgUrl) {
-        this.email = email;
+    public User(String loginId, String password, String nickname, UserRole role) {
+        this.loginId = loginId;
         this.password = password;
-        this.phone = phone;
-        this.username = username;
-        this.title = title;
-        this.website = website;
-        this.profileImgUrl = profileImgUrl;
+        this.nickname = nickname;
+        this.role = role;
     }
-
 }

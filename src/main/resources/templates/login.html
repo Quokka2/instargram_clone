@@ -1,34 +1,46 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/XSL/Transfo">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>Instagram</title>
-    <link href="/css/common.css" rel="stylesheet">
-    <link href="/css/login.css" rel="stylesheet"/>
-
-    <!-- favicon -->
-    <link rel="icon" href="/img/favicon.png">
-    <link rel="instagram-icon" href="/img/favicon.png">
-
+    <meta charset="UTF-8">
+    <title th:text="|${pageName}|"></title>
 </head>
 <body>
-<div class="container">
-    <form action="/loginForm" method="post">
-        <img class="logo_instagram" src="/img/logo_text.png" alt="instagram_logo">
-        <input type="text" class="username" name="username" id="username" placeholder="이메일">
-        <input type="password" class="password" name="password" id="password" placeholder="비밀번호">
-        <button id="btn_login" disabled>로그인</button>
+<div>
+    <h1><a th:href="|/${loginType}|">[[${pageName}]]</a></h1> <hr/>
+    <h2>로그인</h2>
+    <form th:method="post" th:action="|@{/{loginType}/login (loginType=${loginType})}|" th:object="${loginRequest}">
+        <div>
+            <label th:for="loginId">로그인 아이디 : </label>
+            <input type="text" th:field="*{loginId}"/>
+        </div>
+        <br/>
+        <div>
+            <label th:for="password">비밀번호 : </label>
+            <input type="password" th:field="*{password}"/>
+        </div>
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <br/>
+            <div class="error-class" th:each="error : ${#fields.globalErrors()}" th:text="${error}" />
+        </div>
+        <br/>
+        <button type="submit">로그인</button>
+        <button type="button" th:onclick="|location.href='@{/{loginType}/join (loginType=${loginType})}'|">회원 가입</button> <br/><br/>
     </form>
-    <span class="login_input_check" th:if="${param.error}" > 입력한 계정을 찾을 수 없습니다. </span>
-    <!-- Oauth 소셜로그인 -->
-    <div class="login_facebook">
-        <img class="logo_facebook" src="/img/facebook_icon.png">
-        <a href="/oauth2/authorization/facebook" class="btn_facebook">Facebook으로 로그인</a>
-    </div>
-    <!-- Oauth 소셜로그인end -->
-    <a href="/signup" class="button_signup">계정이 없으신가요? 가입하기</a>
 </div>
-<script src="/js/login.js"></script>
+<div th:if="${loginType == 'security-login'}">
+    <a href="/oauth2/authorization/google">구글 로그인</a>
+    <a href="/oauth2/authorization/kakao">카카오 로그인</a>
+    <a href="/oauth2/authorization/naver">네이버 로그인</a>
+    <a href="/oauth2/authorization/facebook">페이스북 로그인</a>
+</div>
 </body>
 </html>
+
+<style>
+    .error-class {
+        color: red;
+    }
+    .error-input {
+        border-color: red;
+    }
+</style>
