@@ -4,6 +4,8 @@ import com.example.instargram.domain.User;
 import com.example.instargram.domain.dto.JoinRequest;
 import com.example.instargram.domain.dto.LoginRequest;
 import com.example.instargram.service.UserService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -82,6 +85,17 @@ public class SecurityLoginController {
         model.addAttribute("loginRequest", new LoginRequest());
         return "login";
     }
+
+    @GetMapping("/security-login/login")
+    public String login(@RequestParam(value = "error", required = false) String error,
+            @RequestParam(value = "exception", required = false) String exception, Model model) throws Exception {
+
+        model.addAttribute("error", error);
+        model.addAttribute("exception", exception);
+
+        return "login";
+    }
+
 
     @GetMapping("/info")
     public String userInfo(Model model, Authentication auth) {
