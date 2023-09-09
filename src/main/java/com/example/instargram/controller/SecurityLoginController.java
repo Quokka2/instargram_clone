@@ -30,7 +30,6 @@ public class SecurityLoginController {
     @GetMapping(value = {"", "/"})
     public String home(Model model, Authentication auth) {
         model.addAttribute("loginType", "security-login");
-        model.addAttribute("pageName", "Security 로그인");
 
         if(auth != null) {
             User loginUser = userService.getLoginUserByLoginId(auth.getName());
@@ -45,7 +44,6 @@ public class SecurityLoginController {
     @GetMapping("/join")
     public String joinPage(Model model) {
         model.addAttribute("loginType", "security-login");
-        model.addAttribute("pageName", "Security 로그인");
 
         model.addAttribute("joinRequest", new JoinRequest());
         return "join";
@@ -54,7 +52,6 @@ public class SecurityLoginController {
     @PostMapping("/join")
     public String join(@Valid @ModelAttribute JoinRequest joinRequest, BindingResult bindingResult, Model model) {
         model.addAttribute("loginType", "security-login");
-        model.addAttribute("pageName", "Security 로그인");
 
         // loginId 중복 체크
         if(userService.checkLoginIdDuplicate(joinRequest.getLoginId())) {
@@ -80,7 +77,6 @@ public class SecurityLoginController {
     @GetMapping("/login")
     public String loginPage(Model model) {
         model.addAttribute("loginType", "security-login");
-        model.addAttribute("pageName", "Security 로그인");
 
         model.addAttribute("loginRequest", new LoginRequest());
         return "login";
@@ -100,7 +96,6 @@ public class SecurityLoginController {
     @GetMapping("/info")
     public String userInfo(Model model, Authentication auth) {
         model.addAttribute("loginType", "security-login");
-        model.addAttribute("pageName", "Security 로그인");
 
         User loginUser = userService.getLoginUserByLoginId(auth.getName());
 
@@ -115,7 +110,6 @@ public class SecurityLoginController {
     @GetMapping("/admin")
     public String adminPage( Model model) {
         model.addAttribute("loginType", "security-login");
-        model.addAttribute("pageName", "Security 로그인");
 
         return "admin";
     }

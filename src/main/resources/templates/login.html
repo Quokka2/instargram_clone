@@ -9,12 +9,9 @@
     <!-- favicon -->
     <link rel="icon" href="/img/favicon.png">
     <link rel="instagram-icon" href="/img/favicon.png">
-
-    <title th:text="|${pageName}|"></title>
 </head>
 <body>
 <div class="container">
-    <h3><a th:href="|/${loginType}|">[[${pageName}]]</a></h3>
     <form th:method="post" th:action="|@{/{loginType}/login (loginType=${loginType})}|" th:object="${loginRequest}">
         <img class="logo_instagram" src="/img/logo_text.png" alt="instagram_logo">
         <input type="text" class="username" th:field="*{loginId}" placeholder="아이디"/>
