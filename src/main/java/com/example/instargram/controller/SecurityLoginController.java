@@ -53,16 +53,19 @@ public class SecurityLoginController {
     public String join(@Valid @ModelAttribute JoinRequest joinRequest, BindingResult bindingResult, Model model) {
         model.addAttribute("loginType", "security-login");
 
+        System.out.println("출력값 = "+joinRequest.getLoginId());
+        JoinRequest req = JoinRequest.setEntity(joinRequest.getLoginId(), joinRequest.getPassword(), joinRequest.getPasswordCheck(), joinRequest.getNickname());
+
         // loginId 중복 체크
-        if(userService.checkLoginIdDuplicate(joinRequest.getLoginId())) {
+        if(userService.checkLoginIdDuplicate(req.getLoginId())) {
             bindingResult.addError(new FieldError("joinRequest", "loginId", "로그인 아이디가 중복됩니다."));
         }
         // 닉네임 중복 체크
-        if(userService.checkNicknameDuplicate(joinRequest.getNickname())) {
+        if(userService.checkNicknameDuplicate(req.getNickname())) {
             bindingResult.addError(new FieldError("joinRequest", "nickname", "닉네임이 중복됩니다."));
         }
         // password와 passwordCheck가 같은지 체크
-        if(!joinRequest.getPassword().equals(joinRequest.getPasswordCheck())) {
+        if(!req.getPassword().equals(req.getPasswordCheck())) {
             bindingResult.addError(new FieldError("joinRequest", "passwordCheck", "바밀번호가 일치하지 않습니다."));
         }
 
@@ -70,7 +73,9 @@ public class SecurityLoginController {
             return "join";
         }
 
-        userService.join2(joinRequest);
+
+        userService.join2(req);
+
         return "redirect:/security-login";
     }
 

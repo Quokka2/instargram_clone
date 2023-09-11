@@ -3,7 +3,6 @@ package com.example.instargram.service;
 import com.example.instargram.domain.User;
 import com.example.instargram.domain.UserRepository;
 import com.example.instargram.domain.dto.JoinRequest;
-import com.example.instargram.domain.dto.LoginRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
