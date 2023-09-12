@@ -15,6 +15,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
@@ -50,12 +51,14 @@ public class SecurityLoginController {
     }
 
     @PostMapping("/join")
-    public String join(@Valid @ModelAttribute JoinRequest joinRequest, BindingResult bindingResult, Model model) {
+    public String join(@RequestBody final JoinRequest joinRequest, BindingResult bindingResult, Model model) {
         model.addAttribute("loginType", "security-login");
 
-        System.out.println("출력값 = "+joinRequest.getLoginId());
-        JoinRequest req = JoinRequest.setEntity(joinRequest.getLoginId(), joinRequest.getPassword(), joinRequest.getPasswordCheck(), joinRequest.getNickname());
+        System.out.println("joinRequest.getLoginId() = " + joinRequest.getLoginId());
 
+
+
+        JoinRequest req = JoinRequest.of(joinRequest);
         // loginId 중복 체크
         if(userService.checkLoginIdDuplicate(req.getLoginId())) {
             bindingResult.addError(new FieldError("joinRequest", "loginId", "로그인 아이디가 중복됩니다."));

@@ -7,6 +7,7 @@ import lombok.*;
 import javax.validation.constraints.NotBlank;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class JoinRequest {
 
@@ -21,17 +22,16 @@ public class JoinRequest {
     private String nickname;
 
     //  정적 팩토리 메서드
-    public static JoinRequest setEntity(String loginId, String password, String passwordCheck, String nickname) {
-        return JoinRequest.builder()
-                .loginId(loginId)
-                .password(password)
-                .passwordCheck(passwordCheck)
-                .nickname(nickname)
-                .build();
+
+
+
+    public static JoinRequest of(final JoinRequest joinRequest){
+        return new JoinRequest(joinRequest.getLoginId(), joinRequest.getPassword(),
+                joinRequest.getPasswordCheck(), joinRequest.getNickname());
     }
 
-    @Builder
-    public JoinRequest(String loginId, String password, String passwordCheck, String nickname) {
+
+    private JoinRequest(String loginId, String password, String passwordCheck, String nickname) {
         this.loginId = loginId;
         this.password = password;
         this.nickname = nickname;
